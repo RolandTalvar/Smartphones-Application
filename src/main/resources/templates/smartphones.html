@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:javascript="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Smartphones list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p><a href="/smartphone/s">Smartphone list</a></p>
+<p><a href="/log.txt">Log</a></p>
+<h1>List of all smartphones</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    <tr th:each="smartphone : ${smartphoneList}">
+        <td th:text="${smartphone.id}">ID</td>
+        <td><a href="#" th:attr="onclick='javascript:getDescription(\'' + ${smartphone.id} + '\');'" th:text="${smartphone.name}"></a></td>
+        <td th:text="${smartphone.price}">Price</td>
+        <td><a th:href="@{/smartphone/s(id=${smartphone.id})}">Edit</a></td>
+    </tr>
+</table>
+<br/>
+<div id="descriptionDiv" style="visibility: hidden">
+    DESCRIPTION<br/>
+    <textarea style="width: 400px; height: 100px;" id="description" name="description"></textarea><br/>
+    <button onclick="hideDescriptionDiv()">Close</button>
+</div>
+
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    function showDescription(description) {
+        document.getElementById("description").value = description;
+        document.getElementById("descriptionDiv").style.visibility = "visible";
+    }
+
+    function hideDescriptionDiv() {
+        document.getElementById("descriptionDiv").style.visibility = "hidden";
+    }
+
+    function getDescription(id) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var smartphone = JSON.parse(xhttp.responseText);
+                showDescription(smartphone.description);
+            } else {
+                showDescription("Sorry! Unable to receive smartphone description.");
+            }
+        };
+        xhttp.open("GET", "smartphoneservice?id=" + id, true);
+        xhttp.send();
+    }
+
+    /*]]>*/
+</script>
+
+
+</body>
+</html>
+
