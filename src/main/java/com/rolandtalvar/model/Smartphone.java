@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
 
@@ -14,33 +16,34 @@ import javax.validation.constraints.*;
 public class Smartphone {
 
     @Id
-    private int id;
-
-    @Size(min=2, max=50)
-    private String name;
-
-    @Min(1)
-    @Digits(integer=6, fraction=0, message="The value must be less than five digits")
+    private long id;
+    private String manufacturer;
+    private String model;
     private int price;
-
-    @NotEmpty
-    @Size(max = 500)
     private String description;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public int getPrice() {

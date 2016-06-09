@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface SmartphoneRepository extends JpaRepository<Smartphone, Long> {
 
-    Smartphone findById(int id);
+    Smartphone findById(long id);
 
-    List<Smartphone> findAllByOrderByIdAsc();
 }
