@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <title>Smartphones REST application</title>
+</head>
+<body data-ng-app="smartphoneApp" data-ng-controller="smartphoneController">
+<h1>Smartphones REST application</h1>
+
+<p><br /><button data-ng-click="getSmartphones();">Refresh smartphone list from server</button></p>
+<h3>All smartphones</h3>
+
+<table class="table table-hover">
+    <thead>
+    <th>ID</th>
+    <th>Manufacturer</th>
+    <th>Model</th>
+    <th>Price</th>
+    <th>Description</th>
+    </thead>
+    <tr ng-repeat="smartphone in smartphones | orderBy:'id'" data-ng-click="getSmartphone(smartphone.id);">
+        <td>{{ smartphone.id }}</td>
+        <td>{{ smartphone.manufacturer }}</td>
+        <td>{{ smartphone.model }}</td>
+        <td>{{ smartphone.price }}</td>
+        <td>{{ smartphone.description }}</td>
+    </tr>
+</table>
+<button data-ng-click="showCreateSmartphone = true; showEditSmartphone = false;">Show "Create new smartphone" form</button>
+
+
+<div data-ng-show="showEditSmartphone">
+    <h3>Edit smartphone</h3>
+
+    <table class="table table-bordered">
+
+    <tr>
+        <td>Manufacturer</td>
+        <td><input type="text" data-ng-model="editSmartphone.manufacturer" /></td>
+    </tr>
+    <tr>
+        <td>Model</td>
+        <td><input type="text" data-ng-model="editSmartphone.model" /></td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td><input type="number" data-ng-model="editSmartphone.price" /></td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td><input type="text" data-ng-model="editSmartphone.description" /></td>
+    </tr>
+
+
+    </table>
+
+    <p><button data-ng-click="saveSmartphone(editSmartphone);">Save edited smartphone to server</button></p>
+    <p><button data-ng-click="deleteSmartphone(editSmartphone.id);">Delete this smartphone from the server</button></p>
+</div>
+
+<div data-ng-show="showCreateSmartphone">
+    <h3>Create new smartphone</h3>
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Manufacturer</td>
+            <td><input type="text" data-ng-model="newSmartphone.manufacturer" /></td>
+    </tr>
+    <tr>
+        <td>Model</td>
+        <td><input type="text" data-ng-model="newSmartphone.model" /></td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td><input type="number" data-ng-model="newSmartphone.price" /></td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td><input type="text" data-ng-model="newSmartphone.description" /></td>
+    </tr>
+
+    </table>
+    <button data-ng-click="createNewSmartphone(newSmartphone);">Save new smartphone to server</button>
+</div>
+
+<script src="app.js"></script>
+<script src="smartphoneController.js"></script>
+</body>
+</html>

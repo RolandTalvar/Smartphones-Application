@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 public class Smartphone {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private String manufacturer;
     private String model;

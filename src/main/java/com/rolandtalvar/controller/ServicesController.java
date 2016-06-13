@@ -1,10 +1,14 @@
 package com.rolandtalvar.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rolandtalvar.model.Smartphone;
 import com.rolandtalvar.repository.SmartphoneRepository;
 import com.rolandtalvar.repository.SmartphoneSearchDAO;
 import com.rolandtalvar.service.RestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,19 +40,40 @@ public class ServicesController {
     }
 
     @RequestMapping(value = "/smartphones", method = RequestMethod.POST)
-    public void createSmartphone(@RequestBody Smartphone smartphone) {
-        smartphoneRepository.save(smartphone);
+    public ResponseEntity<String> createSmartphone(@RequestBody Smartphone smartphone) {
+        Smartphone savedSmartphone = smartphoneRepository.save(smartphone);
+
+        String smartphoneJSON = "";
+        try {
+            smartphoneJSON = new ObjectMapper().writeValueAsString(savedSmartphone);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(smartphoneJSON, HttpStatus.OK);
+        return responseEntity;
     }
 
     @RequestMapping(value = "/smartphones/{id}", method = RequestMethod.PUT)
-    public void updateSmartphone(@PathVariable("id") long id, @RequestBody Smartphone smartphone) {
+    public ResponseEntity<String> updateSmartphone(@PathVariable("id") long id, @RequestBody Smartphone smartphone) {
         smartphone.setId(id);
-        smartphoneRepository.save(smartphone);
+        Smartphone savedSmartphone = smartphoneRepository.save(smartphone);
+
+        String smartphoneJSON = "";
+        try {
+            smartphoneJSON = new ObjectMapper().writeValueAsString(savedSmartphone);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(smartphoneJSON, HttpStatus.OK);
+        return responseEntity;
     }
 
     @RequestMapping(value = "/smartphones/{id}", method = RequestMethod.DELETE)
-    public void deleteSmartphone(@PathVariable("id") long id) {
+    public ResponseEntity<String> deleteSmartphone(@PathVariable("id") long id) {
         smartphoneRepository.delete(id);
+
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("Smartphone with id: " + id + " deleted", HttpStatus.OK);
+        return responseEntity;
     }
 
     @RequestMapping(value = "/external/smartphones", method = RequestMethod.GET)

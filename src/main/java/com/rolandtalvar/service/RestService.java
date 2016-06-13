@@ -14,6 +14,7 @@ public class RestService {
 
     public List<Smartphone> getSmartphones() {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject("http://localhost:8010/SmartphoneService/service/smartphones", List.class);
+        List<Smartphone> smartphones = restTemplate.getForObject("http://localhost:8010/SmartphonesService/service/smartphones", List.class);
+        return smartphones;
     }
 }
